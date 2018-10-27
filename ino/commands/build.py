@@ -48,7 +48,7 @@ class Build(Command):
 
     default_cppflags = '-ffunction-sections -fdata-sections -g -Os -w'
     default_cflags = ''
-    default_cxxflags = '-fno-exceptions'
+    default_cxxflags = '-std=gnu++11 -fno-exceptions -fno-threadsafe-statics'
     default_ldflags = '-Os --gc-sections'
 
     def setup_arg_parser(self, parser):
@@ -221,7 +221,7 @@ class Build(Command):
         flags = SpaceList()
         for d in libdirs:
             flags.append('-I' + d)
-            flags.extend('-I' + subd for subd in list_subdirs(d, recursive=True, exclude=['examples']))
+            flags.extend('-I' + subd for subd in list_subdirs(d, recursive=False, exclude=['examples']))
         return flags
 
     def _scan_dependencies(self, dir, lib_dirs, inc_flags):
